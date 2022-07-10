@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-cred
+data:
+  username: ZGVtbw==
+  password: ZGVtb0AxMjM=

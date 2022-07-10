@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deploy
+  labels:
+    app: app-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-deploy
+  template:
+    metadata:
+      labels:
+        app: app-deploy
+    spec:
+      containers:
+      - image: a30sham/candyshopappjwt
+        name: candyshopapp
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-configmap
+              key: host_name
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-configmap
+              key: db_name
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-root-cred
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-root-cred
+              key: password
+      initContainers:
+        - name: init-mysql
+          image: busybox
+          command: ['sh', '-c', "until nslookup mysql-deploy.default.svc.cluster.local; do echo waiting for mysql-deploy; sleep 2; done"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-deploy
+  labels:
+    app: app-deploy
+spec:
+  ports:
+  - name: web
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: app-deploy
+  type: LoadBalancer

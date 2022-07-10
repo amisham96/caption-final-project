@@ -30,7 +30,7 @@ pipeline {
             steps{
                 dir("/var/lib/jenkins/workspace/final-caption-project"){
                 withSonarQubeEnv('sonarqube'){
-                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=candyshopapp -Dsonar.host.url=http://20.124.219.18:9000 -Dsonar.login=sqa_13948fa3dc8e6a0a9cbe053c03ed15558ca2f3b6'
+                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=candyshopapp -Dsonar.host.url=http://20.228.169.139:9000 -Dsonar.login=sqa_13948fa3dc8e6a0a9cbe053c03ed15558ca2f3b6'
                 }
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
           nexusArtifactUploader(
           nexusVersion: 'nexus3',
           protocol: 'http',
-          nexusUrl: '20.85.225.255:8081',
+          nexusUrl: '20.228.129.112:8081',
           groupId: 'candyshopapp',
           version: '0.0.1-SNAPSHOT',
           repository: 'maven-snapshots',

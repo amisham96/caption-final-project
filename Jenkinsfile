@@ -8,20 +8,63 @@ pipeline {
     stages {
         stage('Pull From SCM') {
             steps {
-                git branch: 'dev', credentialsId: 'git-cred', url: 'git@github.com:amisham96/caption-final-project.git'
+                git branch: 'testing', credentialsId: 'git-cred', url: 'git@github.com:amisham96/caption-final-project.git'
             }
         }
-        stage('Run Maven Build') {
+     stage('Checkstyle') {
             steps {
-            sh "mvn clean package"
+                sh 'mvn checkstyle:checkstyle'
             }
-            post {
-                //if maven build was able to run the test we will create a test report and archive the jar in local machine
-                success {
-                    junit '**/target/surefire-reports/*.xml'
-                    archiveArtifacts 'target/*.jar'
+        }
+        stage('Checkstyle Report') {
+            steps {
+                recordIssues(tools: [checkStyle(pattern: 'target/checkstyle-result.xml')])
+            }
+        }
+        stage('Code Coverage') {
+            steps {
+                jacoco()
+            }
+        }
+        stage('SonarQube Analysis'){
+            steps{
+                dir("/var/lib/jenkins/workspace/final-caption-project"){
+                withSonarQubeEnv('sonarqube'){
+                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=candyshopapp -Dsonar.host.url=http://20.124.219.18:9000 -Dsonar.login=sqa_13948fa3dc8e6a0a9cbe053c03ed15558ca2f3b6'
+                }
                 }
             }
         }
+        stage("Quality Gate"){
+            steps{
+                script{
+                timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+                def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+                if (qg.status != 'OK') {
+                    error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                }
+                }
+            }
+            }
+        }
+       stage ('Upload jar to Nexus repository'){
+          steps {
+          nexusArtifactUploader(
+          nexusVersion: 'nexus3',
+          protocol: 'http',
+          nexusUrl: '20.85.225.255:8081',
+          groupId: 'candyshopapp',
+          version: '0.0.1-SNAPSHOT',
+          repository: 'maven-snapshots',
+          credentialsId: 'nexus-cred',
+          artifacts: [
+            [artifactId: 'candyshopapp',
+             classifier: '',
+             file: 'target/candyshop-0.0.1-SNAPSHOT.jar',
+             type: 'jar']
+        ]
+        )
+        }
+     }
     }
 }

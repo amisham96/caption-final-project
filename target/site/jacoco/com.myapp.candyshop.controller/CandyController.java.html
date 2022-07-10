@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CandyController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">candyshop</a> &gt; <a href="index.source.html" class="el_package">com.myapp.candyshop.controller</a> &gt; <span class="el_source">CandyController.java</span></div><h1>CandyController.java</h1><pre class="source lang-java linenums">package com.myapp.candyshop.controller;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.myapp.candyshop.dto.CandyDto;
+import com.myapp.candyshop.dto.ResponseBody;
+import com.myapp.candyshop.entity.Candy;
+import com.myapp.candyshop.exception.CandyShopApplicationException;
+import com.myapp.candyshop.service.CandyService;
+
+@RestController
+@RequestMapping(&quot;/controller&quot;)
+<span class="nc" id="L28">public class CandyController {</span>
+	@Autowired
+	CandyService candyService;
+	@Autowired
+	ModelMapper modelMapper;
+
+	@PostMapping(&quot;/addCandy/{shopId}&quot;)
+	public ResponseEntity&lt;?&gt; addCandy(@Valid @RequestBody CandyDto candy, @PathVariable int shopId)
+			throws CandyShopApplicationException {
+
+<span class="nc" id="L38">		return new ResponseEntity&lt;ResponseBody&lt;CandyDto&gt;&gt;(new ResponseBody&lt;CandyDto&gt;(</span>
+<span class="nc" id="L39">				modelMapper.map(candyService.addCandy(modelMapper.map(candy, Candy.class), shopId), CandyDto.class),</span>
+				null, &quot;Candy Added Sucessfully&quot;, true), HttpStatus.OK);
+	}
+
+	@GetMapping(&quot;/getAllCandy&quot;)
+	public ResponseEntity&lt;?&gt; getAllCandy() throws CandyShopApplicationException {
+<span class="nc" id="L45">		return new ResponseEntity&lt;ResponseBody&lt;List&lt;Candy&gt;&gt;&gt;(</span>
+<span class="nc" id="L46">				new ResponseBody&lt;List&lt;Candy&gt;&gt;(candyService.getAllCandy(), null, &quot;All Candy Found&quot;, true),</span>
+				HttpStatus.OK);
+	}
+
+	@DeleteMapping(&quot;/deletedCandy/{candyId}&quot;)
+	public ResponseEntity&lt;?&gt; deletedCandy(@PathVariable int candyId) throws CandyShopApplicationException {
+<span class="nc" id="L52">		candyService.deleteCandy(candyId);</span>
+<span class="nc" id="L53">		return new ResponseEntity&lt;ResponseBody&lt;Void&gt;&gt;(new ResponseBody&lt;Void&gt;(null, null, &quot;Candy Deleted&quot;, true),</span>
+				HttpStatus.OK);
+	}
+
+	@PutMapping(&quot;/updateCandy/{candyId}&quot;)
+	public ResponseEntity&lt;?&gt; updateCandy(@Valid @RequestBody Candy candy, @PathVariable int candyId)
+			throws CandyShopApplicationException {
+
+<span class="nc" id="L61">		return new ResponseEntity&lt;ResponseBody&lt;Candy&gt;&gt;(</span>
+<span class="nc" id="L62">				new ResponseBody&lt;Candy&gt;(candyService.updateCandy(candy, candyId), null, &quot;Candy Updated&quot;, true),</span>
+				HttpStatus.OK);
+	}
+
+	@GetMapping(&quot;/getAllCandyStockLessThanFive&quot;)
+	public ResponseEntity&lt;?&gt; getAllCandyStockLessThanFive() throws CandyShopApplicationException {
+<span class="nc" id="L68">		return new ResponseEntity&lt;ResponseBody&lt;List&lt;Candy&gt;&gt;&gt;(new ResponseBody&lt;List&lt;Candy&gt;&gt;(</span>
+<span class="nc" id="L69">				candyService.getAllCandyStockLessThanFive(), null, &quot;All Candy Found&quot;, true), HttpStatus.OK);</span>
+	}
+
+	@GetMapping(&quot;/getAllCandyByShopId&quot;)
+	public ResponseEntity&lt;?&gt; getAllCandyByShopId(int shopId) throws CandyShopApplicationException {
+<span class="nc" id="L74">		return new ResponseEntity&lt;ResponseBody&lt;List&lt;Candy&gt;&gt;&gt;(new ResponseBody&lt;List&lt;Candy&gt;&gt;(</span>
+<span class="nc" id="L75">				candyService.getAllCandyOfPerticularShop(shopId), null, &quot;All Candy Found&quot;, true), HttpStatus.OK);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

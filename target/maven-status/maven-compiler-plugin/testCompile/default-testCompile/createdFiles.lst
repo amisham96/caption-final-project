@@ -1,0 +1,5 @@
+com/myapp/candyshop/controller/CandyControllerTest.class
+com/myapp/candyshop/service/impl/ShopServiceImplTest.class
+com/myapp/candyshop/service/impl/CandyServiceImplTest.class
+com/myapp/candyshop/CandyshopApplicationTests.class
+com/myapp/candyshop/controller/ShopControllerTest.class

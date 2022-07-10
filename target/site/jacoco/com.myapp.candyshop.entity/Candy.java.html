@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Candy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">candyshop</a> &gt; <a href="index.source.html" class="el_package">com.myapp.candyshop.entity</a> &gt; <span class="el_source">Candy.java</span></div><h1>Candy.java</h1><pre class="source lang-java linenums">package com.myapp.candyshop.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+@Table(name = &quot;candy&quot;)
+public class Candy {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = &quot;candy_id&quot;)
+	private int candyId;
+
+	@Column(name = &quot;candy_name&quot;, nullable = false)
+	private String candyName;
+
+	@Column(name = &quot;candy_stock&quot;, nullable = false)
+	private int candyStock;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Shop shop;
+
+	public Candy() {
+<span class="fc" id="L33">		super();</span>
+		// TODO Auto-generated constructor stub
+<span class="fc" id="L35">	}</span>
+
+	public Candy(int candyId, String candyName, int candyStock, Shop shop) {
+<span class="fc" id="L38">		super();</span>
+<span class="fc" id="L39">		this.candyId = candyId;</span>
+<span class="fc" id="L40">		this.candyName = candyName;</span>
+<span class="fc" id="L41">		this.candyStock = candyStock;</span>
+<span class="fc" id="L42">		this.shop = shop;</span>
+<span class="fc" id="L43">	}</span>
+
+	public int getCandyId() {
+<span class="nc" id="L46">		return candyId;</span>
+	}
+
+	public void setCandyId(int candyId) {
+<span class="nc" id="L50">		this.candyId = candyId;</span>
+<span class="nc" id="L51">	}</span>
+
+	public String getCandyName() {
+<span class="nc" id="L54">		return candyName;</span>
+	}
+
+	public void setCandyName(String candyName) {
+<span class="fc" id="L58">		this.candyName = candyName;</span>
+<span class="fc" id="L59">	}</span>
+
+	public int getCandyStock() {
+<span class="nc" id="L62">		return candyStock;</span>
+	}
+
+	public void setCandyStock(int candyStock) {
+<span class="fc" id="L66">		this.candyStock = candyStock;</span>
+<span class="fc" id="L67">	}</span>
+
+	public Shop getShop() {
+<span class="nc" id="L70">		return shop;</span>
+	}
+
+	public void setShop(Shop shop) {
+<span class="nc" id="L74">		this.shop = shop;</span>
+<span class="nc" id="L75">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

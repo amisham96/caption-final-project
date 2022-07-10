@@ -30,7 +30,7 @@ pipeline {
             steps{
                 dir("/var/lib/jenkins/workspace/final-caption-project"){
                 withSonarQubeEnv('sonarqube'){
-                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=candyshopapp -Dsonar.host.url=http://20.228.169.139:9000 -Dsonar.login=sqa_13948fa3dc8e6a0a9cbe053c03ed15558ca2f3b6'
+                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=candyshopapp -Dsonar.host.url=http://20.228.169.139:9000/ -Dsonar.login=sqa_ffbb9bbf5fa0a6367622ee29f1c0aac9e73846bd'
                 }
                 }
             }

@@ -28,7 +28,7 @@ pipeline {
         }
         stage('SonarQube Analysis'){
             steps{
-                dir("/var/lib/jenkins/workspace/final-caption-project"){
+                dir("/var/lib/jenkins/workspace/final-caption-project_testing"){
                 withSonarQubeEnv('sonarqube'){
                     sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=candyshopapp -Dsonar.host.url=http://20.228.169.139:9000/ -Dsonar.login=sqa_ffbb9bbf5fa0a6367622ee29f1c0aac9e73846bd'
                 }

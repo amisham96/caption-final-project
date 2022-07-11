@@ -47,7 +47,7 @@ pipeline {
           repository: 'maven-snapshots',
           credentialsId: 'nexus-cred',
           artifacts: [
-            [artifactId: 'candyshopapp',
+            [artifactId: 'candyshopapp1',
              classifier: '',
              file: 'target/candyshop-0.0.1-SNAPSHOT.jar',
              type: 'jar']

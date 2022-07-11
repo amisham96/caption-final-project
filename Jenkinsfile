@@ -41,7 +41,7 @@ pipeline {
           nexusArtifactUploader(
           nexusVersion: 'nexus3',
           protocol: 'http',
-          nexusUrl: '20.228.129.112:8081',
+          nexusUrl: '20.228.169.139:8081',
           groupId: 'candyshopapp',
           version: '0.0.1-SNAPSHOT',
           repository: 'maven-snapshots',
